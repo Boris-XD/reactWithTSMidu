@@ -1,26 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect, useState} from 'react'
+import Form from './components/Form';
+import List from './components/List';
+import Sub from './definitions/typeSub'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const INITIAL_STATE = [
+  {
+    nick: 'dapelu',
+    subMonths: 3,
+    avatar: 'https://i.pravatar.cc/150?u=dapelu',
+    description: 'Dapelu hace de moderador a veces'
+  },
+  {
+    nick: 'FranzN',
+    subMonths: 7,
+    avatar: 'https://i.pravatar.cc/150?u=franz',
+  }
+];
+interface AppState {
+  subs: Array<Sub>
 }
 
-export default App;
+const App = () => {
+  const [subs, setSubs] = useState<AppState['subs']>([])
+
+  const newSub = (newSubs : Sub) : void => {
+    setSubs(subs => [...subs, newSubs])
+  };
+
+  useEffect(()=> {
+    setSubs(INITIAL_STATE);
+  }, []);
+  return (
+    <div className='App'>
+      <h1>Midu Dev</h1>
+      <List subs = {subs}/>
+      <Form newSub={newSub} />
+    </div>
+  )
+}
+
+export default App
